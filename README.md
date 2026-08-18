@@ -26,12 +26,4 @@ frontend renders schedule, insights, fitness chart
 `run.py` also serves the frontend itself, so there's only one process
 to run — no separate dev server.
 
-## Current limitations (by design, for now)
-
-- The progress bar/fitness chart during "Generate" replays the GA's real
-  per-generation history *after* the optimizer finishes, rather than
-  streaming it live. True live progress needs a background thread or
-  WebSocket and is intentionally deferred (see Phase 6 in the project brief).
-- Availability only supports one contiguous hour block per day, inside a
-  single "preferred period" window (morning/afternoon/evening). Multiple
-  blocks per day, days off, and weekend handling are future constraints.
+## cureently in works due to some limitations
