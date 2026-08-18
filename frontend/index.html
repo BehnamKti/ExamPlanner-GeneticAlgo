@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDY OPTIMIZER — Exam Season Console</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ============ MASTHEAD ============ -->
+  <header class="masthead">
+    <div class="masthead__mark">
+      <span class="masthead__title">STUDY<br>OPTIMIZER</span>
+      <span class="masthead__sub">Genetic Algorithm Exam Planning Console — Fall Season</span>
+    </div>
+    <nav class="masthead__nav">
+      <a href="#overview" class="nav-link">01 OVERVIEW</a>
+      <a href="#subjects" class="nav-link">02 SUBJECTS</a>
+      <a href="#timeline" class="nav-link">03 TIMELINE</a>
+      <a href="#availability" class="nav-link">04 AVAILABILITY</a>
+      <a href="#schedule" class="nav-link">05 SCHEDULE</a>
+      <a href="#insights" class="nav-link">06 INSIGHTS</a>
+    </nav>
+    <div class="masthead__status" id="statusBadge">
+      <span class="dot dot--idle"></span> IDLE
+    </div>
+  </header>
+
+  <!-- ============ 01 OVERVIEW ============ -->
+  <section id="overview" class="section section--overview">
+    <div class="section__label">01 / OVERVIEW</div>
+    <div class="stat-grid">
+      <div class="stat-block">
+        <div class="stat-block__value" id="statExams">—</div>
+        <div class="stat-block__label">EXAMS</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block__value" id="statHours">—</div>
+        <div class="stat-block__label">HOURS REQUIRED</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block__value" id="statAvailable">—</div>
+        <div class="stat-block__label">HOURS AVAILABLE</div>
+      </div>
+      <div class="stat-block stat-block--accent">
+        <div class="stat-block__value" id="statFitness">—</div>
+        <div class="stat-block__label">FITNESS SCORE</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block__value" id="statNextExam">—</div>
+        <div class="stat-block__label">DAYS TO NEXT EXAM</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ 02 SUBJECTS ============ -->
+  <section id="subjects" class="section">
+    <div class="section__head">
+      <div class="section__label">02 / SUBJECTS</div>
+      <button class="btn btn--outline" id="addSubjectBtn">+ ADD SUBJECT</button>
+    </div>
+    <div class="subject-grid" id="subjectGrid">
+      <!-- injected by app.js -->
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ 03 TIMELINE ============ -->
+  <section id="timeline" class="section">
+    <div class="section__label">03 / EXAM TIMELINE</div>
+    <div class="timeline" id="timeline_track">
+      <!-- injected by app.js -->
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ 04 AVAILABILITY + SETTINGS ============ -->
+  <section id="availability" class="section section--split">
+    <div class="split-col">
+      <div class="section__label">04 / AVAILABLE STUDY TIME</div>
+      <div class="field-row">
+        <label class="field">
+          <span class="field__label">START DATE</span>
+          <input type="date" id="rangeStart" class="field__input">
+        </label>
+        <label class="field">
+          <span class="field__label">END DATE</span>
+          <input type="date" id="rangeEnd" class="field__input">
+        </label>
+      </div>
+      <div class="field-row">
+        <label class="field">
+          <span class="field__label">DAILY STUDY HOURS</span>
+          <input type="number" id="dailyHours" class="field__input" value="3" min="0" max="16">
+        </label>
+        <label class="field">
+          <span class="field__label">PREFERRED PERIOD</span>
+          <select id="preferredPeriod" class="field__input">
+            <option value="morning">MORNING</option>
+            <option value="afternoon" selected>AFTERNOON</option>
+            <option value="evening">EVENING</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="split-col">
+      <div class="section__head">
+        <div class="section__label">ADVANCED SETTINGS</div>
+        <button class="btn btn--ghost" id="advToggle">SHOW ▾</button>
+      </div>
+      <div class="adv-panel" id="advPanel" hidden>
+        <div class="field-row">
+          <label class="field">
+            <span class="field__label">POPULATION SIZE</span>
+            <input type="number" id="gaPopulation" class="field__input" value="120">
+          </label>
+          <label class="field">
+            <span class="field__label">GENERATIONS</span>
+            <input type="number" id="gaGenerations" class="field__input" value="100">
+          </label>
+        </div>
+        <div class="field-row">
+          <label class="field">
+            <span class="field__label">MUTATION RATE</span>
+            <input type="number" id="gaMutation" class="field__input" value="0.05" step="0.01">
+          </label>
+          <label class="field">
+            <span class="field__label">ELITISM COUNT</span>
+            <input type="number" id="gaElitism" class="field__input" value="4">
+          </label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ GENERATE CTA ============ -->
+  <section class="section section--cta">
+    <button class="btn-generate" id="generateBtn">
+      <span class="btn-generate__icon">✦</span>
+      <span>GENERATE OPTIMAL PLAN</span>
+    </button>
+    <div class="progress" id="progressDisplay" hidden>
+      <div class="progress__state" id="progressState">INITIALIZING</div>
+      <div class="progress__bar-track">
+        <div class="progress__bar-fill" id="progressFill"></div>
+      </div>
+      <div class="progress__meta" id="progressMeta">GENERATION 000 / 100</div>
+    </div>
+  </section>
+
+  <div class="rule rule--thick"></div>
+
+  <!-- ============ 05 SCHEDULE ============ -->
+  <section id="schedule" class="section">
+    <div class="section__label">05 / GENERATED SCHEDULE</div>
+    <div class="schedule-grid" id="scheduleGrid">
+      <!-- injected by app.js -->
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ 06 INSIGHTS + FITNESS ============ -->
+  <section id="insights" class="section section--split">
+    <div class="split-col">
+      <div class="section__label">06 / OPTIMIZATION INSIGHTS</div>
+      <ul class="insight-list" id="insightList">
+        <!-- injected by app.js -->
+      </ul>
+    </div>
+    <div class="split-col">
+      <div class="section__label">FITNESS PROGRESSION</div>
+      <div class="fitness-chart" id="fitnessChart">
+        <!-- injected by app.js -->
+      </div>
+      <div class="fitness-legend">
+        <span><i class="legend-dot legend-dot--best"></i> BEST</span>
+        <span><i class="legend-dot legend-dot--avg"></i> AVERAGE</span>
+        <span><i class="legend-dot legend-dot--worst"></i> WORST</span>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>STUDY OPTIMIZER — LOCAL BUILD</span>
+    <span>GA_optimizer.py NOT YET CONNECTED — RUNNING ON SAMPLE DATA</span>
+  </footer>
+
+  <!-- ============ ADD SUBJECT MODAL ============ -->
+  <div class="modal" id="subjectModal" hidden>
+    <div class="modal__panel">
+      <div class="modal__head">
+        <span id="modalTitle">ADD SUBJECT</span>
+        <button class="modal__close" id="modalClose">✕</button>
+      </div>
+      <div class="modal__body">
+        <label class="field field--block">
+          <span class="field__label">NAME</span>
+          <input type="text" id="formName" class="field__input" placeholder="e.g. MATHEMATICS">
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span class="field__label">EXAM DATE</span>
+            <input type="date" id="formDate" class="field__input">
+          </label>
+          <label class="field">
+            <span class="field__label">REQUIRED HOURS</span>
+            <input type="number" id="formHours" class="field__input" min="1" value="10">
+          </label>
+        </div>
+        <label class="field field--block">
+          <span class="field__label">PRIORITY (1–5)</span>
+          <input type="range" id="formPriority" min="1" max="5" value="3">
+          <div class="priority-bar" id="formPriorityPreview"></div>
+        </label>
+      </div>
+      <div class="modal__foot">
+        <button class="btn btn--ghost" id="formCancel">CANCEL</button>
+        <button class="btn btn--solid" id="formSave">SAVE SUBJECT</button>
+      </div>
+    </div>
+  </div>
+
+<script src="app.js"></script>
+</body>
+</html>
